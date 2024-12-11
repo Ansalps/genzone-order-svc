@@ -7,7 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	cartpb "github.com/Ansalps/genzone-cart-svc/pkg/pb"
+	cartpb "github.com/Ansalps/genzone-order-svc/pkg/cart/pb"
+	"github.com/Ansalps/genzone-order-svc/pkg/db"
 	"github.com/Ansalps/genzone-order-svc/pkg/models"
 	orderpb "github.com/Ansalps/genzone-order-svc/pkg/pb"
 	"google.golang.org/grpc"
@@ -30,9 +31,9 @@ func (s *Server) CreateOrder(ctx context.Context, req *orderpb.CreateOrderReques
 		log.Printf("Error fetching product details: %v", err)
 	}
 	// Calculate total amount
-	cart.Price = product.Price
-	totalAmount := product.Price * float64(req.Quantity)
-	cart.Amount = totalAmount
+	// cart.Price = product.Price
+	// totalAmount := product.Price * float64(req.Quantity)
+	// cart.Amount = totalAmount
 	//var product models.Product
 	if result := s.H.DB.Create(&cart); result.Error != nil {
 		return &orderpb.CreateOrderResponse{
